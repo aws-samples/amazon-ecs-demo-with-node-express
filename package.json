@@ -1,0 +1,14 @@
+{
+  "name": "simple-calculator",
+  "version": "1.0.0",
+  "description": "Demo web app running on Amazon ECS",
+  "main": "calculator.js",
+  "scripts": {
+    "start": "node calculator.js"
+  },
+  "author": "buraku",
+  "license": "MIT-0",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
