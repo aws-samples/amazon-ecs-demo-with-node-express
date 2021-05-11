@@ -24,7 +24,7 @@ $ sudo chkconfig docker on
 $ sudo usermod -a -G docker ec2-user
 $ sudo reboot
 # to verify
-docker info
+$ docker info
 ```
 
 **Note :** In some cases, you may need to reboot your instance to provide permissions for the ec2-user to access the Docker daemon. Try rebooting your instance in that case.
@@ -39,11 +39,13 @@ $ docker build -t sample-nodejs-app .
 # verify and get the image id
 $ docker images
 # run docker image
-$ docker run -p 80:3000 sample-nodejs-app
+$ docker run --name dockerized-node-app -p 80:3000 --init --rm sample-nodejs-app
 
 ```
 
 Congratulations! Now, you've deployed a containerized Express - Node.js web app on Amazon EC2. Visit to public DNS of your instance to see the application.
+
+Note: Don't forget to clean your resources to prevent any unexpected charge. 
 
 <p align="center">
     <img src="./diagram/public_ip.png" alt="web-application" />
@@ -56,7 +58,7 @@ In this part we will the image to a container registry - Amazon ECR in order to 
 ```bash
 # Authenticate to your default registry
 # update the region and aws_account_id on the below command
-aws ecr get-login-password --region region | docker login --username AWS --password-stdin aws_account_id.dkr.ecr.region.amazonaws.com
+$ aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <aws_account_id>.dkr.ecr.<region>.amazonaws.com
 
 # Once you receive 'Login Succeeded" , you can create your private repo on ECR
 # update the region on the below command
@@ -67,9 +69,9 @@ $ aws ecr create-repository \
 
 # tag and push your image
 # update the region and aws_account_id on the below command
-$ docker tag sample-nodejs-app:latest aws_account_id.dkr.ecr.region.amazonaws.com/sample-nodejs-app:latest
+$ docker tag sample-nodejs-app:latest <aws_account_id>.dkr.ecr.<region>.amazonaws.com/sample-nodejs-app:latest
 
-$ docker push aws_account_id.dkr.ecr.eu-west-1.amazonaws.com/sample-nodejs-app:latest
+$ docker push <aws_account_id>.dkr.ecr.<region>.amazonaws.com/sample-nodejs-app:latest
 
 ```
 
@@ -136,6 +138,7 @@ Congratulations! Now, you've deployed a Express - Node.js web app on Amazon ECS 
     <img src="./diagram/cluster_details.png" alt="ecs_service" />
 <p>
 
+Note: Don't forget to clean your resources to prevent any unexpected charge. 
 
 ## Security
 
