@@ -7,12 +7,14 @@ The purpose of this repository is to demonstrate how to deploy a simple web appl
 
  - Dockerfile and the sample code are provided in this repository.
  - In the optional part 1, we'll [install Docker on AWS EC2](https://docs.aws.amazon.com/AmazonECS/latest/userguide/docker-basics.html#install_docker), build and run the image. You might also use local development environment for this part.
- - In the optional part 2, we'll push the image to [Amazon ECR](https://docs.aws.amazon.com/AmazonECR/latest/userguide/getting-started-cli.html#cli-authenticate-registry)
+ - In the optional part 2, we'll push the image to [Amazon ECR](https://docs.aws.amazon.com/AmazonECR/latest/userguide/getting-started-cli.html#cli-authenticate-registry). If you're using the EC2 Instance for this, make sure its assigned role has necessary rights (such as AmazonEC2ContainerRegistryFullAccess )
 
 
 ## Part 1 - Optional : Running Docker on Amazon EC2
 
-Launching an EC2 instance with Amazon Linux 2.`t3.micro` size is sufficient for the sake of this demosntration and since we'll use `port 80` for web application, Security Group allow HTTP protocol at this port. Once your instance is up and running, SSH into it and Run the commands below on your instance :
+- Launch an EC2 instance with Amazon Linux 2.`t3.micro` size, it will sufficient for this demonstration
+- We'll use `port 80` for web application, configure your Security Group to allow HTTP access at this port. 
+- Once your instance is up and running, SSH into it and Run the commands below on your instance :
 
 ```bash
 # Install Docker
@@ -23,7 +25,8 @@ $ sudo chkconfig docker on
 # adding the ec2-user to the docker
 $ sudo usermod -a -G docker ec2-user
 $ sudo reboot
-# to verify
+# you'll lose connection to EC2 for a while
+# once you're able to SSH again, verify docker installation : 
 $ docker info
 ```
 
@@ -55,6 +58,9 @@ Note: Don't forget to clean your resources to prevent any unexpected charge.
 
 In this part we will the image to a container registry - Amazon ECR in order to use it in an Amazon ECS task definition. We'll proceed with a private repository in this demo, but public repositories and Docker Hub are also supported.
 
+- From IAM, create a role with relevant access to Amazon ECR. (For instance, a role with "AmazonEC2ContainerRegistryFullAccess") 
+- From EC2 Dashboard, click Actions and Modify IAM role under Security tab. 
+
 ```bash
 # Authenticate to your default registry
 # update the region and aws_account_id on the below command
@@ -65,7 +71,7 @@ $ aws ecr get-login-password --region <region> | docker login --username AWS --p
 $ aws ecr create-repository \
     --repository-name sample-nodejs-app \
     --image-scanning-configuration scanOnPush=true \
-    --region eu-west-1
+    --region <region>
 
 # tag and push your image
 # update the region and aws_account_id on the below command
