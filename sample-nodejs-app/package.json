@@ -1,7 +1,7 @@
 {
   "name": "simple-calculator",
   "version": "1.0.0",
-  "description": "Demo web app running on Amazon ECS",
+  "description": "Demo web app running on Amazon ECS pulling images from ECR",
   "main": "calculator.js",
   "scripts": {
     "start": "node calculator.js"
