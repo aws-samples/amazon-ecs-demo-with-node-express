@@ -1,5 +1,5 @@
 
-# How to Deploy a Node-Express App on Amazon ECS - Updte
+# How to Deploy a Node-Express App on Amazon ECS
 
 The purpose of this repository is to demonstrate how to deploy a simple web application built by Express - Node.js web application framework on Amazon ECS by using Amazon ECR (Elastic Container Registry)
 
