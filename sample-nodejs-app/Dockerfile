@@ -4,4 +4,4 @@ WORKDIR /usr/src/calc
 COPY . .
 RUN npm install
 # EXPOSE 3000
-CMD [ "node", "calculator.js" ]
+CMD [ "node", "app.js" ]
